@@ -6,6 +6,8 @@
 #elif defined(ESP32)
 #include <WiFi.h>
 #endif
+#include <Wire.h>
+
 //#include "sclock-time.h"
 
 #if defined(ESP8266)
@@ -18,9 +20,13 @@ void setup() {
   Serial.println();
   Serial.println("sClock Starting...");
 
+  // Setup the pins to be used for i2c when
+  // one of the libs below setup wire
+  Wire.pins(0,2);
+  
   // Get the display working early so we can
   // display something on the screen
-  //sclockDisplayInit();
+  sclockDisplayInit();
 
 #if defined(ESP8266)
   WiFi.mode(WIFI_STA);
@@ -52,8 +58,8 @@ void setup() {
   sclockOtaSetup();
   sclockButtonSetup();
   sclockTimeSetup();
-  //sclockDisplaySetup();
-  //sclockRadioSetup();
+  sclockDisplaySetup();
+  sclockRadioSetup();
   sclockWebSetup();
 }
 
@@ -61,8 +67,8 @@ void loop() {
   sclockOtaLoop();
   sclockButtonLoop();
   sclockTimeLoop();
-  //sclockDisplayLoop();
-  //sclockRadioLoop();
+  sclockDisplayLoop();
+  sclockRadioLoop();
   sclockWebLoop();
 
   //delay(1000);

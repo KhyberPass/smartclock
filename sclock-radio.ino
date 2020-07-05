@@ -19,7 +19,16 @@ void sclockRadioSetup(void)
 #if 0
   // 8266 is pins 4 and 5
   // ESP32 is pins 23 and 22
+  // We use 0 and 2
+
+  // On AVR boards the following can be done to see if
+  // i2c has already been setup
+  // this does not work on ESP8266 nad ESP32 as this register does not exist.
+#if defined(_AVR_)
   if (TWCR == 0) // do this check so that Wire only gets initialized once
+#else
+  if (0)
+#endif
   {
     Serial.println("Beginning wire library...");
     Wire.begin(0,2);
@@ -29,7 +38,7 @@ void sclockRadioSetup(void)
   //Sets the radio station
   radio.selectFrequency(105.7);
 
-#if 0  
+#if 0
   delay(5000);
   
   //Mutes the radio
